@@ -456,7 +456,7 @@ strong agreement between model predictions and experimental observations.
 
 ---
 
-**Thesis paragraph (copy-paste ready)**
+**What this means**
 
 > "The GPR model's predictive performance was evaluated using standard statistical
 > metrics. The model achieved an R² of {r2:.4f} and a Willmott Index (WI) of {wi:.4f},
