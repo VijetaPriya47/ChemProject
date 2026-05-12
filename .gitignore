@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local mpl_toolkits shim (system-specific fix, not needed on cloud)
+mpl_toolkits/
+
+# Archives & large binaries not required for deployment
+archive.zip
+archive/
+
+# PDFs (reference documents, not part of the app)
+*.pdf
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Streamlit secrets
+.streamlit/secrets.toml
