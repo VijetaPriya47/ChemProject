@@ -331,7 +331,10 @@ supporting data-driven process analysis and optimization across four OFAT study 
                                 title=f"{feature} vs {target_variable}",
                                 labels={feature: feature, target_variable: target_variable},
                             )
-                            fig_scatter.update_traces(marker={"size": 8, "opacity": 0.85})
+                            fig_scatter.update_traces(
+                                marker={"size": 8, "opacity": 0.85},
+                                mode="lines+markers",
+                            )
                             fig_scatter.update_layout(
                                 height=340,
                                 margin={"l": 20, "r": 20, "t": 50, "b": 20},
