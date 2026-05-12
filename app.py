@@ -592,6 +592,41 @@ strong agreement between model predictions and experimental observations.
             )
             result = trained_bundle["result"]
             trained_features = trained_bundle["input_features"]
+
+            with st.expander("💡 What is Risk Aversion (λ)?", expanded=False):
+                st.markdown(
+                    r"""
+**Uncertainty-Aware Optimization** shifts the goal from finding the *"best possible result"*
+to finding the *"safest, most reliable good result."* The **λ (lambda)** parameter is the
+dial you turn to decide how much to penalise uncertainty in the model's predictions.
+
+---
+
+#### The Trade-off — A Biochar Example
+
+| Setup | Conditions | Predicted Removal | Model Uncertainty |
+|-------|-----------|-------------------|-------------------|
+| **A** — High Reward, High Risk | pH 2.5 | **99%** | Very high — a ±0.1 pH shift could drop removal to ~40% |
+| **B** — Moderate Reward, Low Risk | pH 6.0 | **90%** | Very low — removal stays at 89–91% across pH 5.5–6.5 |
+
+Which setup should you choose for the lab? That is exactly what **λ** decides.
+
+---
+
+#### The Mathematical Formula
+
+$$\text{Optimisation Score} = \underbrace{\mu}_{\text{Predicted performance}} - \lambda \times \underbrace{\sigma}_{\text{Uncertainty}}$$
+
+| λ value | Behaviour |
+|---------|-----------|
+| **λ = 0** (Risk-Neutral) | Uncertainty is ignored entirely. The algorithm picks Setup A because 99% > 90%. |
+| **λ > 0** (Risk-Averse) | Uncertainty is penalised. A high λ (e.g. 2–3) drags Setup A's score down, causing the algorithm to pivot to the stable Setup B. |
+
+**Recommended starting point:** try **λ = 1.0** to balance performance and safety, then
+increase toward 3–5 if you want the optimizer to strongly prefer robust, repeatable conditions.
+"""
+                )
+
             risk_aversion = st.slider(
                 "Risk aversion (λ) for uncertainty-aware optimization",
                 min_value=0.0, max_value=5.0, value=0.0, step=0.1,
