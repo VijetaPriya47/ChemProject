@@ -14,34 +14,161 @@ EXPERIMENT_TYPE_COL = "Experiment_Type"
 
 DEMO_FILENAME = "Copy of Batch study of Mango biochar  - ML_Dataset.csv"
 
+# ── Colour palette ────────────────────────────────────────────────────────────
+C_NAVY   = "#0D1B2A"
+C_TEAL   = "#00B4D8"
+C_SKY    = "#90E0EF"
+C_BG     = "#F0F4F8"
+C_TEXT   = "#1A2332"
+C_MUTED  = "#5A6A7A"
+C_RED    = "#E63946"
+
+
+def inject_css() -> None:
+    st.markdown(
+        f"""
+<style>
+/* ── App background ── */
+.stApp {{ background-color: {C_BG}; }}
+
+/* ── Sidebar ── */
+[data-testid="stSidebar"] {{
+    background-color: {C_NAVY};
+}}
+[data-testid="stSidebar"] * {{
+    color: #D0E8F2 !important;
+}}
+[data-testid="stSidebar"] .stSelectbox label,
+[data-testid="stSidebar"] .stMultiSelect label,
+[data-testid="stSidebar"] .stNumberInput label,
+[data-testid="stSidebar"] .stToggle label {{
+    color: {C_SKY} !important;
+    font-weight: 600;
+}}
+[data-testid="stSidebar"] h1,
+[data-testid="stSidebar"] h2,
+[data-testid="stSidebar"] h3 {{
+    color: {C_SKY} !important;
+}}
+[data-testid="stSidebar"] [data-baseweb="select"] > div,
+[data-testid="stSidebar"] [data-baseweb="input"] > div {{
+    background-color: #162233 !important;
+    border-color: #1E3A52 !important;
+}}
+
+/* ── Tabs ── */
+.stTabs [data-baseweb="tab-list"] {{
+    background-color: white;
+    border-radius: 10px 10px 0 0;
+    padding: 0 0.5rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}}
+.stTabs [data-baseweb="tab"] {{
+    color: {C_MUTED};
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.7rem 1.2rem;
+}}
+.stTabs [aria-selected="true"] {{
+    color: {C_TEAL} !important;
+    border-bottom: 3px solid {C_TEAL} !important;
+    background: transparent !important;
+}}
+
+/* ── Primary buttons ── */
+[data-testid="baseButton-primary"] {{
+    background-color: {C_TEAL} !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    font-weight: 600 !important;
+    padding: 0.45rem 1.4rem !important;
+    transition: background 0.2s;
+}}
+[data-testid="baseButton-primary"]:hover {{
+    background-color: #0096B7 !important;
+}}
+
+/* ── Metric cards ── */
+[data-testid="stMetric"] {{
+    background: white;
+    border-left: 4px solid {C_TEAL};
+    border-radius: 8px;
+    padding: 0.8rem 1rem !important;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}}
+[data-testid="stMetricLabel"] {{
+    color: {C_MUTED} !important;
+    font-size: 0.82rem !important;
+    font-weight: 600 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}}
+[data-testid="stMetricValue"] {{
+    color: {C_NAVY} !important;
+    font-size: 1.6rem !important;
+    font-weight: 700 !important;
+}}
+
+/* ── Expanders ── */
+[data-testid="stExpander"] {{
+    background: white;
+    border-left: 4px solid {C_TEAL};
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    margin-bottom: 0.8rem;
+}}
+[data-testid="stExpander"] summary {{
+    font-weight: 600;
+    color: {C_NAVY};
+}}
+
+/* ── Headings ── */
+h1, h2, h3 {{ color: {C_NAVY}; }}
+
+/* ── Info / success / warning boxes ── */
+[data-testid="stAlert"] {{
+    border-radius: 8px;
+}}
+
+/* ── Dataframe header ── */
+[data-testid="stDataFrame"] th {{
+    background-color: {C_NAVY} !important;
+    color: white !important;
+}}
+</style>
+""",
+        unsafe_allow_html=True,
+    )
+
 
 def apply_plotly_white_theme(fig):
     fig.update_layout(
         template="plotly_white",
         paper_bgcolor="white",
         plot_bgcolor="white",
-        font={"color": "#111111"},
-        title={"font": {"color": "#111111"}},
-        legend={"font": {"color": "#111111"}},
+        font={"color": C_TEXT, "family": "sans-serif"},
+        title={"font": {"color": C_NAVY, "size": 15}},
+        legend={"font": {"color": C_TEXT}},
         margin={"l": 30, "r": 20, "t": 60, "b": 30},
     )
     fig.update_xaxes(
         showline=True,
         linewidth=1,
-        linecolor="#111111",
-        gridcolor="#E6E6E6",
-        zerolinecolor="#CCCCCC",
-        tickfont={"color": "#111111"},
-        titlefont={"color": "#111111"},
+        linecolor=C_TEXT,
+        gridcolor="#E8EDF2",
+        zerolinecolor="#D0D8E2",
+        tickfont={"color": C_TEXT},
+        titlefont={"color": C_NAVY},
     )
     fig.update_yaxes(
         showline=True,
         linewidth=1,
-        linecolor="#111111",
-        gridcolor="#E6E6E6",
-        zerolinecolor="#CCCCCC",
-        tickfont={"color": "#111111"},
-        titlefont={"color": "#111111"},
+        linecolor=C_TEXT,
+        gridcolor="#E8EDF2",
+        zerolinecolor="#D0D8E2",
+        tickfont={"color": C_TEXT},
+        titlefont={"color": C_NAVY},
     )
     return fig
 
@@ -147,33 +274,74 @@ def render_bounds_section(df: pd.DataFrame, input_features: list[str]) -> dict[s
 
 
 def main() -> None:
-    st.set_page_config(page_title="Mango Biochar Adsorption — ML Optimization", layout="wide")
-    st.title("Mango Biochar Batch Adsorption — ML-Based Process Optimization")
-    st.markdown(
-        """
-This tool applies machine learning to **batch adsorption data from mango biochar** experiments,
-supporting data-driven process analysis and optimization across four OFAT study parameters:
-**pH, Biochar Dosage, Initial Concentration, and Contact Time**.
-
-- **Configure**: select input process variables, a target response, and optimization bounds
-- **Model**: fit a **Gaussian Process Regression (GPR)** surrogate using **LOOCV**
-- **Explain**: rank influential parameters via **SHAP** (with permutation importance fallback)
-- **Optimize**: find optimal operating conditions using **Differential Evolution**
-"""
+    st.set_page_config(
+        page_title="Mango Biochar Adsorption — ML Optimization",
+        page_icon="🌿",
+        layout="wide",
     )
+    inject_css()
+
+    # ── Hero banner ──────────────────────────────────────────────────────────
+    st.markdown(
+        f"""
+<div style="background: linear-gradient(135deg, {C_NAVY} 0%, #023E8A 100%);
+            padding: 2rem 2.5rem; border-radius: 12px; margin-bottom: 1.5rem;">
+  <h1 style="color:{C_SKY}; margin:0; font-size:2rem; font-weight:800;">
+    🌿 Mango Biochar Adsorption
+  </h1>
+  <p style="color:#ADE8F4; margin:0.6rem 0 0.4rem; font-size:1.05rem;">
+    ML-Based Process Optimization &nbsp;·&nbsp; GPR + SHAP + Differential Evolution
+  </p>
+  <p style="color:#7EC8E3; margin:0; font-size:0.88rem;">
+    Configure inputs → Train model → Interpret with SHAP → Find optimal conditions
+  </p>
+</div>
+""",
+        unsafe_allow_html=True,
+    )
+
     st.info(
-        "Looking for model limitations and research context? Open the **Research Context** tab → "
+        "Looking for model limitations and research context? Open the **📖 Research Context** tab → "
         "**Limitations & Future Scope (Viva-ready)**."
     )
 
+    # ── Intro workflow cards ──────────────────────────────────────────────────
     intro_left, intro_mid, intro_right = st.columns(3)
+    card_style = (
+        f"background:white; border-top:4px solid {C_TEAL}; border-radius:8px; "
+        "padding:1rem 1.1rem; box-shadow:0 2px 8px rgba(0,0,0,0.06); height:100%;"
+    )
     with intro_left:
-        st.markdown("**1) Load data**\n\nDemo dataset auto-loads, or upload your own CSV.")
+        st.markdown(
+            f'<div style="{card_style}"><b style="color:{C_NAVY};">① Load data</b>'
+            f'<p style="color:{C_MUTED}; margin:0.4rem 0 0; font-size:0.9rem;">'
+            "Demo dataset auto-loads, or upload your own CSV from the sidebar.</p></div>",
+            unsafe_allow_html=True,
+        )
     with intro_mid:
-        st.markdown("**2) Train + Evaluate**\n\nGo to **Model Metrics** and click **Train Model**.")
+        st.markdown(
+            f'<div style="{card_style}"><b style="color:{C_NAVY};">② Train + Evaluate</b>'
+            f'<p style="color:{C_MUTED}; margin:0.4rem 0 0; font-size:0.9rem;">'
+            "Go to <b>🤖 Model Metrics</b> and click <b>Train Model</b>.</p></div>",
+            unsafe_allow_html=True,
+        )
     with intro_right:
-        st.markdown("**3) Explain + Optimize**\n\nUse **SHAP Explainability** and **GA Optimization** tabs.")
+        st.markdown(
+            f'<div style="{card_style}"><b style="color:{C_NAVY};">③ Explain + Optimize</b>'
+            f'<p style="color:{C_MUTED}; margin:0.4rem 0 0; font-size:0.9rem;">'
+            "Use <b>🔍 SHAP Explainability</b> and <b>⚙️ GA Optimization</b> tabs.</p></div>",
+            unsafe_allow_html=True,
+        )
+    st.markdown("<br>", unsafe_allow_html=True)
 
+    st.sidebar.markdown(
+        f'<div style="background:{C_NAVY}; padding:0.75rem 1rem; border-radius:8px; '
+        f'margin-bottom:0.8rem; border-left:4px solid {C_TEAL};">'
+        f'<p style="color:{C_SKY}; font-weight:700; margin:0; font-size:1rem;">🌿 Biochar ML Tool</p>'
+        f'<p style="color:#7EC8E3; font-size:0.78rem; margin:0.2rem 0 0;">GPR · SHAP · Optimization</p>'
+        "</div>",
+        unsafe_allow_html=True,
+    )
     st.sidebar.header("Data Upload")
     demo_path = Path(__file__).parent / DEMO_FILENAME
     use_demo = st.sidebar.toggle(
@@ -223,11 +391,11 @@ supporting data-driven process analysis and optimization across four OFAT study 
 
     dashboard_tabs = st.tabs(
         [
-            "Raw Data Analysis",
-            "Model Metrics",
-            "SHAP Explainability",
-            "GA Optimization",
-            "Research Context",
+            "📊 Raw Data Analysis",
+            "🤖 Model Metrics",
+            "🔍 SHAP Explainability",
+            "⚙️ GA Optimization",
+            "📖 Research Context",
         ]
     )
 
@@ -332,8 +500,9 @@ supporting data-driven process analysis and optimization across four OFAT study 
                                 labels={feature: feature, target_variable: target_variable},
                             )
                             fig_scatter.update_traces(
-                                marker={"size": 8, "opacity": 0.85},
+                                marker={"size": 8, "opacity": 0.9},
                                 mode="lines+markers",
+                                line={"width": 2},
                             )
                             fig_scatter.update_layout(
                                 height=340,
@@ -484,14 +653,14 @@ strong agreement between model predictions and experimental observations.
                     y="Predicted",
                     title="Actual vs. GPR Predictions (Parity Plot)",
                 )
-                fig_parity.update_traces(marker={"size": 8, "color": "#1f77b4", "opacity": 0.85})
+                fig_parity.update_traces(marker={"size": 8, "color": C_TEAL, "opacity": 0.85})
                 actual_min = float(np.min(prediction_df["Actual"]))
                 actual_max = float(np.max(prediction_df["Actual"]))
                 fig_parity.add_shape(
                     type="line",
                     x0=actual_min, y0=actual_min,
                     x1=actual_max, y1=actual_max,
-                    line={"color": "red", "dash": "dash"},
+                    line={"color": C_RED, "dash": "dash"},
                 )
                 fig_parity = apply_plotly_white_theme(fig_parity)
                 st.plotly_chart(fig_parity, use_container_width=True)
@@ -504,15 +673,15 @@ strong agreement between model predictions and experimental observations.
                 fig_violin.add_trace(
                     go.Violin(
                         y=prediction_df["Actual"], name="Actual",
-                        side="negative", line_color="#1f77b4",
-                        fillcolor="rgba(31,119,180,0.35)", meanline_visible=True,
+                        side="negative", line_color=C_TEAL,
+                        fillcolor="rgba(0,180,216,0.3)", meanline_visible=True,
                     )
                 )
                 fig_violin.add_trace(
                     go.Violin(
                         y=prediction_df["Predicted"], name="Predicted",
-                        side="positive", line_color="#ff7f0e",
-                        fillcolor="rgba(255,127,14,0.35)", meanline_visible=True,
+                        side="positive", line_color="#0077B6",
+                        fillcolor="rgba(0,119,182,0.3)", meanline_visible=True,
                     )
                 )
                 fig_violin.update_layout(
@@ -538,9 +707,9 @@ strong agreement between model predictions and experimental observations.
                     title="Error Stability (Absolute Error Distribution)",
                 )
                 fig_error_box.update_traces(
-                    marker={"color": "#d62728", "opacity": 0.75},
-                    line={"color": "#111111"},
-                    fillcolor="rgba(214,39,40,0.25)",
+                    marker={"color": C_RED, "opacity": 0.75},
+                    line={"color": C_NAVY},
+                    fillcolor="rgba(230,57,70,0.2)",
                 )
                 fig_error_box = apply_plotly_white_theme(fig_error_box)
                 st.plotly_chart(fig_error_box, use_container_width=True)
